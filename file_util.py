@@ -18,14 +18,14 @@ def download_csv(url, save_path):
     else:
         print(f"Failed to download the file. Status code: {response.status_code}")
 
-def creation_date(path_to_file) -> float:
+def creation_date(path_to_file) -> int:
     if platform.system() == 'Windows':
-        return os.path.getctime(path_to_file)
+        return int(os.path.getctime(path_to_file))
     else:
         stat = os.stat(path_to_file)
         try:
-            return stat.st_birthtime
+            return int(stat.st_birthtime)
         except AttributeError:
             # We're probably on Linux. No easy way to get creation dates here,
             # so we'll settle for when its content was last modified.
-            return stat.st_mtime
+            return int(stat.st_mtime)
