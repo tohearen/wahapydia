@@ -1,6 +1,7 @@
 import requests
 import os
 import platform
+import csv
 
 def download_csv(url, save_path):
     # Send a GET request to the URL
@@ -17,6 +18,15 @@ def download_csv(url, save_path):
         print(f"File successfully downloaded and saved to {save_path}")
     else:
         print(f"Failed to download the file. Status code: {response.status_code}")
+
+def csv_to_dict(file_path):
+    result = {}
+    with open(file_path, 'r', newline='', encoding='utf-8-sig') as csvfile:
+        reader = csv.DictReader(csvfile, delimiter='|')
+        for row in reader:
+            first_column_value = next(iter(row.values()))
+            result[first_column_value] = row
+    return result
 
 def creation_date(path_to_file) -> int:
     if platform.system() == 'Windows':
